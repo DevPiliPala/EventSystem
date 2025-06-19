@@ -1,0 +1,30 @@
+{
+  "name": "com.pilipala.eventsystem",
+  "version": "1.0.0",
+  "displayName": "Event System",
+  "description": "A flexible, designer-friendly event bus for Unity with persistent event management and comprehensive editor tools.",
+  "unity": "6000.1",
+  "dependencies": {},
+  "keywords": [
+    "event",
+    "eventbus",
+    "messaging",
+    "designer",
+    "editor",
+    "unity"
+  ],
+  "author": {
+    "name": "Pili Pala",
+    "email": "DevPiliPala@gmail.com",
+    "url": "https://DevPiliPala.github.io"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevPiliPala/unity-event-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DevPiliPala/unity-event-system/issues"
+  },
+  "homepage": "https://github.com/DevPiliPala/unity-event-system#readme"
+} 
