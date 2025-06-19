@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "Pilipala Platform Movement System",
   "description": "A flexible 2D platform movement system for Unity with support for platformer-style movement, aiming, and state management.",
-  "unity": "2022.3",
+  "unity": "6000.1",
   "dependencies": {
     "com.unity.inputsystem": "1.4.4",
     "com.pilipala.eventsystem": "1.0.0"
@@ -19,12 +19,15 @@
   ],
   "author": {
     "name": "Pilipala",
-    "email": "your.email@example.com",
-    "url": "https://github.com/yourusername"
+    "email": "devpilipala@gmail.com",
+    "url": "https://github.com/DevPiliPala/"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/pilipala-platform-movement.git"
-  }
-} 
+    "url": "https://github.com/DevPiliPala/Packages/com.pilipala.2dmovementsystem.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DevPiliPala/Packages/issues"
+  },
+}
