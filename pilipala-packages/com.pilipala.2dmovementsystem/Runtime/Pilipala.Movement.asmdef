@@ -1,0 +1,17 @@
+{
+    "name": "Pilipala.Movement",
+    "rootNamespace": "Pilipala.Movement",
+    "references": [
+        "Unity.InputSystem",
+        "PiliPala.EventSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+} 
