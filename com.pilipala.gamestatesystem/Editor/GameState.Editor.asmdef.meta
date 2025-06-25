@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: fc2f769387a024c6cb56b0a38d1ea212
+name: GameState.Editor
+rootNamespace: Pilipala.GameState.Editor
+references:
+- GUID: 6055be8ebefd69e48b49212b09b47b2f
+- GUID: 12345678901234567890123456789012
+includePlatforms:
+- Editor
+excludePlatforms: []
+allowUnsafeCode: 0
+overrideReferences: 0
+precompiledReferences: []
+autoReferenced: 1
+defineConstraints: []
+versionDefines: []
+noEngineReferences: 0 

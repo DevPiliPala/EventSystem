@@ -1,0 +1,34 @@
+{
+  "name": "com.pilipala.gamestatesystem",
+  "version": "1.0.0",
+  "displayName": "Pilipala Game State System",
+  "description": "A flexible game state management system for Unity with scene management, pause functionality, and save system integration.",
+  "unity": "6000.1",
+  "dependencies": {
+    "com.pilipala.eventsystem": "1.0.0"
+  },
+  "keywords": [
+    "gamestate",
+    "state",
+    "management",
+    "pause",
+    "save",
+    "scene",
+    "pilipala",
+    "gameflow"
+  ],
+  "author": {
+    "name": "Pili Pala",
+    "email": "devpilipala@gmail.com",
+    "url": "https://github.com/DevPiliPala/"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevPiliPala/Packages.git?path=/com.pilipala.gamestatesystem"
+  },
+  "bugs": {
+    "url": "https://github.com/DevPiliPala/Packages/issues"
+  },
+  "homepage": "https://github.com/DevPiliPala/Packages.git?path=/com.pilipala.gamestatesystem#readme"
+} 

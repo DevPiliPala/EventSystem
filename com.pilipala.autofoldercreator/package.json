@@ -1,0 +1,32 @@
+{
+  "name": "com.pilipala.autofoldercreator",
+  "version": "1.0.0",
+  "displayName": "Pilipala Auto Folder Creator",
+  "description": "A Unity editor tool that automatically creates a comprehensive folder structure for game development projects, streamlining the setup process for game jams and new projects.",
+  "unity": "6000.1",
+  "dependencies": {},
+  "keywords": [
+    "folder",
+    "structure",
+    "organization",
+    "setup",
+    "gamejam",
+    "pilipala",
+    "automation",
+    "editor"
+  ],
+  "author": {
+    "name": "Pili Pala",
+    "email": "devpilipala@gmail.com",
+    "url": "https://github.com/DevPiliPala/"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevPiliPala/Packages.git?path=/com.pilipala.autofoldercreator"
+  },
+  "bugs": {
+    "url": "https://github.com/DevPiliPala/Packages/issues"
+  },
+  "homepage": "https://github.com/DevPiliPala/Packages.git?path=/com.pilipala.autofoldercreator#readme"
+} 
