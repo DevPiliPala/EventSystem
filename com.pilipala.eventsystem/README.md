@@ -1,47 +1,75 @@
-# EventSystem (Unity Event Bus)
+# EventSystem
 
-A robust, type-safe event bus for Unity, designed for both programmers and designers. Includes powerful editor tools and is ready for use as a Unity package.
+Simple event bus for Unity. Send messages between scripts without them needing to know about each other.
 
-## How It Works
-- **EventBus** lets you send and listen for events anywhere in your project.
-- Supports both **type-safe (generic)** events (with payloads) and **non-generic** events (simple signals).
-- Enforces type-safety: each event name can only be used as generic or non-generic, never both.
-- Persistent events can be created and managed in the editor, and are available at runtime.
+## What's this for?
 
-## For Programmers
-- Subscribe to events with or without payloads:
+You know how sometimes you need Script A to tell Script B that something happened, but you don't want them directly connected? This does that.
+
+Like when the player dies, you want to:
+- Update the UI
+- Play a death sound  
+- Save the score
+- Show game over screen
+
+Instead of the player script knowing about all those systems, it just fires a "player died" event and everyone who cares can listen for it.
+
+## How it works
+- Send events with `EventBusHelper.Trigger("event.name")`
+- Listen for events with `EventBusHelper.Subscribe("event.name", MyFunction)`
+- Events can have data attached or just be simple signals
+- Type-safe so you can't accidentally send the wrong data type
+
+## Code examples
 
 ```csharp
-// Type-safe (generic) event
-EventBusHelper.Subscribe<string>("gameplay.player.spawned.generic", (playerName) => { /* ... */ });
-EventBusHelper.Trigger<string>("gameplay.player.spawned.generic", "Alice");
+// Simple event (no data)
+EventBusHelper.Subscribe("player.died", OnPlayerDied);
+EventBusHelper.Trigger("player.died");
 
-// Non-generic event
-EventBusHelper.Subscribe("gameplay.player.spawned.nongeneric", () => { /* ... */ });
-EventBusHelper.Trigger("gameplay.player.spawned.nongeneric");
+// Event with data
+EventBusHelper.Subscribe<int>("player.score.changed", OnScoreChanged);
+EventBusHelper.Trigger<int>("player.score.changed", 1000);
+
+// Event with multiple data types
+EventBusHelper.Subscribe<string, int>("player.levelup", OnLevelUp);
+EventBusHelper.Trigger<string, int>("player.levelup", "Warrior", 5);
+
+void OnPlayerDied() {
+    // Show game over screen
+}
+
+void OnScoreChanged(int newScore) {
+    // Update UI
+}
+
+void OnLevelUp(string className, int newLevel) {
+    // Show level up effects
+}
 ```
-- You cannot mix generic and non-generic for the same event name. The system will warn you if you try.
 
-## For Designers
-- Use the **Event Creator** (Window > Event Bus > Event Creator) to add, view, and organize events by domain and category.
-- Persistent events are saved and available across sessions.
-- Use the **Event Viewer** to monitor events in real time, see subscribers, and debug event activity.
+**Important:** You can't mix data types for the same event name. If you use `"player.died"` as a simple event, you can't later use it with data. The system will yell at you if you try.
 
-## Editor Tools
-- **Event Creator:** Create and manage events, grouped by domain and category. Specify if an event is generic (with payload) or non-generic.
-- **Event Viewer:** See all events, their subscribers, and last triggered times. Great for debugging.
-- **Inspector Integration:** Attach the `EventBusInspector` component to any GameObject to see live test results and recent events.
+## Editor tools (pretty handy)
 
-## Type Safety
-- The system enforces that each event name is only ever used as generic (with a specific payload type) or non-generic (no payload).
-- If you try to mix types for the same event name, you'll get a clear error in the console and the editor.
+### Event Creator
+- Window → Event Bus → Event Creator
+- Create events ahead of time so you don't have typos
+- Organize them by category (like "gameplay", "ui", "audio")
+- Specify if they carry data or not
 
-## Quick Start
-1. Add the EventBus prefab or script to your scene (or let it auto-create).
-2. Use the Event Creator to define your events.
-3. Subscribe and trigger events in your scripts using `EventBusHelper`.
-4. Use the Event Viewer and Inspector to monitor and debug events.
+### Event Viewer  
+- Window → Event Bus → Event Viewer
+- See all events firing in real-time
+- Great for debugging when something isn't working
+- Shows who's listening to what
 
----
+### Inspector
+- Add `EventBusInspector` component to any GameObject
+- Shows recent events and lets you test firing events manually
 
-For more details, see the code comments and try out the included test script (`EventBusTest`).
+## Setup
+
+Just add this package to your project. The EventBus will create itself automatically when you first use it.
+
+If you want to be fancy, you can create events in the Event Creator first, but you don't have to.

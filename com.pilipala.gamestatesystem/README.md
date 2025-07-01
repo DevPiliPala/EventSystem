@@ -1,206 +1,128 @@
 # Game State System
 
-A flexible game state management system for Unity with scene management, pause functionality, and save system integration. Designed for rapid game jam development with event-driven architecture.
+Simple game state manager for Unity. Handles all the boring stuff like pausing, scene loading, and state transitions so you don't have to.
 
-## Features
+## What's this for?
 
-- **State Management**: Comprehensive state system with configurable behaviors
-- **Scene Management**: Automatic scene loading with loading screens
-- **Pause System**: Global pause functionality with UI integration
-- **Event Integration**: Built-in event system integration for state changes
-- **Input Handling**: Automatic input management for pause and menu navigation
-- **Editor Tools**: Visual state monitoring and testing tools
-- **ScriptableObject Configuration**: Easy configuration through ScriptableObjects
+This handles stuff like:
+- Pausing the game
+- Switching between menus and gameplay
+- Loading screens between levels
+- Managing what can happen in each state (like blocking input during cutscenes)
 
-## Dependencies
+This package does all that automatically. Just tell it what state you want and it handles the rest.
 
-- Unity 2022.3 or higher
-- Pilipala Event System (com.pilipala.eventsystem)
+## What you need
 
-## Installation
+- Unity 2022.3+
+- The Pilipala Event System package (it's in this same repo)
 
-1. Add this package to your Unity project via Package Manager
-2. Ensure you have the required dependencies installed
-3. Create a GameStateData ScriptableObject for configuration
+## Setup (takes like 2 minutes)
 
-## Quick Start
+1. Drop this package into your project
+2. Make sure you have the event system package too
+3. Right-click in project → Create → ScriptableObjects → GameState → GameStateData
+4. Done
 
-### 1. Create Game State Data
+## How to use it
 
-1. Right-click in the Project window
-2. Select `Create > ScriptableObjects > GameState > GameStateData`
-3. Configure the state settings for different game states
+### Basic setup
 
-### 2. Set up Game State Manager
+1. **Make a config file**
+   - Right-click → Create → ScriptableObjects → GameState → GameStateData
+   - This is where you configure what each state does
 
-1. Create a GameObject in your scene
-2. Add the `GameStateManager` component
-3. Assign your GameStateData ScriptableObject
-4. Configure scene management settings
+2. **Add the manager to your scene**
+   - Create empty GameObject, add `GameStateManager` component
+   - Drag your config file to the State Data field
+   - That's it, you're done
 
-### 3. Add Input Handler (Optional)
+3. **Optional: Add input handling**
+   - Add `GameStateInputHandler` component anywhere
+   - Handles Esc to pause, backspace to go back, etc.
 
-1. Add the `GameStateInputHandler` component to handle pause and menu input
-2. Configure input keys and behaviors
+### States you get for free
 
-### 4. Configure Scenes
+The system comes with these states built-in:
+- `Loading` - Game is starting up
+- `MainMenu` - Self explanatory
+- `Settings` - Settings screen
+- `LevelSelect` - Level picker
+- `Playing` - Actually playing the game
+- `Paused` - Game is paused
+- `LevelCompleted` - Just finished a level
+- `GameOver` - Player died/failed
+- `Victory` - Player won
+- `Credits` - End credits
+- `LoadingScreen` - Between scenes
+- `Tutorial` - Tutorial sections
+- `Cutscene` - Story scenes
 
-Add your scenes to the Build Settings:
-- MainMenu
-- Loading (optional)
-- Game scenes
-
-## Components
+## The two main components
 
 ### GameStateManager
+This is the brain. It handles:
+- Switching between states
+- Loading scenes automatically
+- Pausing/unpausing
+- Managing time scale
+- Cursor visibility
 
-The main state controller that handles:
-- State transitions
-- Scene management
-- Pause functionality
-- Time scale control
-- Cursor management
-
-**Key Properties:**
-- `StateData`: Reference to the GameStateDataSO
-- `CurrentState`: Current game state
-- `IsPaused`: Whether the game is paused
-- `IsTransitioning`: Whether a scene transition is in progress
+Just call `GameStateManager.Instance.SetState(GameState.Paused)` and it does everything.
 
 ### GameStateInputHandler
+Handles keyboard input:
+- Esc key pauses/unpauses
+- Backspace goes back to previous state
+- Configurable in the inspector
 
-Handles input for game state management:
-- Pause/resume input
-- Menu navigation
-- Back button functionality
+## Events (if you want to listen for stuff)
 
-**Configuration:**
-- Pause key (default: Escape)
-- Menu key (default: Escape)
-- Back key (default: Backspace)
-
-## Game States
-
-The system includes predefined states:
-
-- **Loading**: Initial loading state
-- **MainMenu**: Main menu state
-- **Settings**: Settings menu state
-- **LevelSelect**: Level selection state
-- **Playing**: Active gameplay state
-- **Paused**: Game is paused
-- **LevelCompleted**: Level completed state
-- **GameOver**: Game over state
-- **Victory**: Victory/win state
-- **Credits**: Credits/ending state
-- **LoadingScreen**: Loading screen between scenes
-- **Tutorial**: Tutorial state
-- **Cutscene**: Cutscene state
-
-## Events
-
-The system triggers the following events through the EventBus:
-
-### State Events
-- `GameState.Changed` (GameState newState): When state changes
-- `GameState.StateChanged` (GameState newState, GameState oldState): When state changes with previous state
-- `GameState.Paused` (bool isPaused): When pause state changes
-
-### Scene Events
-- `GameState.SceneLoading` (string sceneName): When scene loading starts
-- `GameState.SceneLoaded` (string sceneName): When scene loading completes
-- `GameState.SceneUnloaded` (string sceneName): When scene is unloaded
-- `GameState.LoadingScreenShown`: When loading screen is displayed
-- `GameState.LoadingProgress` (float progress): During scene loading
-
-### Input Events
-- `GameState.PauseInput`: When pause input is detected
-- `GameState.ResumeInput`: When resume input is detected
-- `GameState.MenuInput`: When menu input is detected
-- `GameState.BackInput`: When back input is detected
-
-## Configuration
-
-### GameStateDataSO
-
-Configure state properties:
-- **State Configuration**: Time scale, input, audio, UI permissions
-- **Scene Management**: Target scene, loading screen, scene unloading
-- **State Behavior**: Pause ability, auto-save, cursor settings
-- **Events**: Custom events to trigger on state enter/exit
-
-### StateData
-
-Each state can be configured with:
-- **Allow Time Scale**: Whether time passes in this state
-- **Time Scale**: Time scale multiplier (0 = frozen, 1 = normal)
-- **Allow Input**: Whether input is processed
-- **Allow Audio**: Whether audio plays
-- **Allow UI**: Whether UI interactions work
-- **Allow Scene Transitions**: Whether scene changes are allowed
-- **Can Be Paused**: Whether this state can be paused
-- **Auto Save**: Whether to auto-save in this state
-- **Show Cursor**: Whether cursor is visible
-- **Cursor Lock Mode**: Cursor lock state
-
-## Usage Examples
-
-### Basic State Management
+The system fires events when things happen. If you want to react to state changes:
 
 ```csharp
-// Get the game state manager
-var gameStateManager = GameStateManager.Instance;
-
-// Check current state
-if (gameStateManager.CurrentState == GameState.Playing) {
-    // Game is active
-}
-
-// Change state
-gameStateManager.SetState(GameState.Paused);
-```
-
-### Event Handling
-
-```csharp
-// Subscribe to state changes
+// Listen for any state change
 EventBusHelper.Subscribe("GameState.Changed", OnStateChanged);
+
+// Listen for pause changes
 EventBusHelper.Subscribe("GameState.Paused", OnPauseChanged);
 
-private void OnStateChanged(GameState newState) {
-    // Handle state change
-}
-
-private void OnPauseChanged(bool isPaused) {
-    // Handle pause state
-}
+// Listen for scene loading
+EventBusHelper.Subscribe("GameState.SceneLoading", OnSceneLoading);
 ```
 
-### Helper Methods
+All the events:
+- `GameState.Changed` - State changed
+- `GameState.Paused` - Pause state changed
+- `GameState.SceneLoading` - Scene started loading
+- `GameState.SceneLoaded` - Scene finished loading
+- `GameState.PauseInput` - Player pressed pause
+- etc.
+
+## Code examples
 
 ```csharp
-// Use helper methods for common actions
-GameStateHelper.StartGame();
-GameStateHelper.PauseGame();
-GameStateHelper.CompleteLevel();
-GameStateHelper.GameOver();
+// Change state (the easy way)
+GameStateHelper.StartGame();      // Goes to Playing state
+GameStateHelper.PauseGame();      // Goes to Paused state  
+GameStateHelper.CompleteLevel();  // Goes to LevelCompleted state
+GameStateHelper.GameOver();       // Goes to GameOver state
 
-// Check permissions
-if (GameStateHelper.CanPerformAction("input")) {
-    // Can process input
+// Change state (the direct way)
+GameStateManager.Instance.SetState(GameState.MainMenu);
+
+// Check current state
+if (GameStateManager.Instance.CurrentState == GameState.Playing) {
+    // Do gameplay stuff
 }
-```
 
-### Scene Management
+// Check if paused
+if (GameStateManager.Instance.IsPaused) {
+    // Show pause menu or whatever
+}
 
-```csharp
 // Load a scene
 GameStateManager.Instance.LoadScene("Level1");
-
-// Check if transitioning
-if (GameStateManager.Instance.IsTransitioning) {
-    // Scene transition in progress
-}
 ```
 
 ## Editor Tools
